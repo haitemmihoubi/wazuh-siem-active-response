@@ -1,0 +1,49 @@
+<!-- /var/ossec/etc/rules/local_rules.xml  (MANAGER) -->
+<group name="malware,syscheck,virustotal,">
+
+  <!-- Rule 1: Suspicious executable/script created in monitored directory -->
+  <rule id="100001" level="12">
+    <if_group>syscheck</if_group>
+    <field name="file">\.exe$|\.bat$|\.cmd$|\.ps1$|\.com$</field>
+    <description>Suspicious executable file created: $(file)</description>
+    <mitre><id>T1204</id></mitre>
+  </rule>
+
+  <!-- Rule 2: EICAR test file or known-bad filename pattern (triggers local quarantine) -->
+  <rule id="100002" level="15">
+    <if_group>syscheck</if_group>
+    <field name="file">eicar|malware|ransom</field>
+    <description>Malware file detected in monitored directory: $(file)</description>
+    <mitre><id>T1204</id></mitre>
+  </rule>
+
+  <!-- Rule 3: Mass file modification - ransomware behavior -->
+  <rule id="100003" level="14" frequency="10" timeframe="30">
+    <if_matched_group>syscheck</if_matched_group>
+    <same_field>agent.id</same_field>
+    <description>Possible ransomware: Mass file modification detected</description>
+    <mitre><id>T1486</id></mitre>
+  </rule>
+
+  <!-- VirusTotal: file flagged as malicious -->
+  <rule id="100010" level="15">
+    <if_sid>87105</if_sid>
+    <description>VirusTotal: Malicious file detected - $(file)</description>
+    <mitre><id>T1204</id></mitre>
+  </rule>
+
+  <!-- VirusTotal: file flagged by multiple engines -->
+  <rule id="100011" level="15">
+    <if_sid>87105</if_sid>
+    <field name="virustotal.positives">10</field>
+    <description>VirusTotal: File flagged by 10+ AV engines - $(file)</description>
+    <mitre><id>T1204</id></mitre>
+  </rule>
+
+  <!-- VirusTotal: file is clean -->
+  <rule id="100012" level="3">
+    <if_sid>87106</if_sid>
+    <description>VirusTotal: File is clean - $(file)</description>
+  </rule>
+
+</group>

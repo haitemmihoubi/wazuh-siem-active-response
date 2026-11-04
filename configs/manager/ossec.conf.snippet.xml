@@ -1,0 +1,39 @@
+<!-- Add inside <ossec_config> in /var/ossec/etc/ossec.conf on the MANAGER -->
+
+<!-- ===== VirusTotal integration (section 4.3) ===== -->
+<integration>
+  <name>virustotal</name>
+  <api_key>YOUR_VIRUSTOTAL_API_KEY</api_key> <!-- NEVER commit a real key -->
+  <group>syscheck</group>
+  <rule_id>550,553,554,100001,100002</rule_id>
+  <alert_format>json</alert_format>
+</integration>
+
+<command>
+  <name>remove-threat</name>
+  <executable>remove-threat.exe</executable>
+  <timeout_allowed>no</timeout_allowed>
+</command>
+
+<active-response>
+  <disabled>no</disabled>
+  <command>remove-threat</command>
+  <location>defined-agent</location>
+  <agent_id>001</agent_id>
+  <rules_id>87105,100010,100011</rules_id>
+</active-response>
+
+<!-- ===== Custom local-script response (section 4.2) ===== -->
+<command>
+  <name>win-quarantine-file</name>
+  <executable>quarantine-file.exe</executable>
+  <timeout_allowed>no</timeout_allowed>
+</command>
+
+<active-response>
+  <command>win-quarantine-file</command>
+  <location>defined-agent</location>
+  <agent_id>001</agent_id>
+  <rules_id>100002</rules_id>
+  <timeout>0</timeout>
+</active-response>

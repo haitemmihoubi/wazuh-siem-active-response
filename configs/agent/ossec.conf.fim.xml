@@ -1,0 +1,14 @@
+<!-- C:\Program Files (x86)\ossec-agent\ossec.conf  (AGENT), inside <syscheck> -->
+<syscheck>
+  <disabled>no</disabled>
+
+  <!-- Scan frequency (seconds) for non-realtime paths -->
+  <frequency>30</frequency>
+
+  <!-- Sensitive Folder: real-time FIM. Adjust the path to your lab. -->
+  <directories realtime="yes" check_all="yes">C:\Users\Admin\Downloads\Wazuh-Agent</directories>
+
+  <!-- Default Windows monitored paths (shipped with the agent) -->
+  <directories recursion_level="0" restrict="regedit.exe$|system.ini$|win.ini$">%WINDIR%</directories>
+  <directories recursion_level="0">%WINDIR%\SysNative\drivers\etc</directories>
+</syscheck>
