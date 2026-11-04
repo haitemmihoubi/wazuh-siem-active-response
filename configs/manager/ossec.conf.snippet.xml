@@ -3,7 +3,7 @@
 <!-- ===== VirusTotal integration (section 4.3) ===== -->
 <integration>
   <name>virustotal</name>
-  <api_key>YOUR_VIRUSTOTAL_API_KEY</api_key> <!-- NEVER commit a real key -->
+  <api_key>VIRUSTOTAL_API_KEY</api_key>
   <group>syscheck</group>
   <rule_id>550,553,554,100001,100002</rule_id>
   <alert_format>json</alert_format>
